@@ -45,15 +45,28 @@ this->endGameText.setPosition(sf::Vector2f(20,300));
 this->endGameText.setString("YOU ARE DEAD!");
 };
 
+void Game::initPlayer(){
+this->player = new Player();
+};
+
+
 // Constructors and Destructors2
 Game::Game() {
   this->initVariables();
   this->initWindow();
   this->initFont();
   this->initText();
-};
+  this->initPlayer();
+}
 
-Game::~Game() { delete window; };
+
+Game::~Game() { 
+    
+    delete window; 
+    delete player;
+    
+    
+    };
 
 //Accessors
 const bool& Game::getEndGame() const
@@ -96,12 +109,30 @@ return false;
 { 
   this->pollEvents(); 
 
-  if (this->endGame == false)
-  {
 
-  this->updateGui();
-
+  //Move player
+ if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+    this->player->move(-1.f, 0.f);
   }
+
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+    this->player->move(1.f, 0.f);
+  }
+
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+    this->player->move(0.f, -1.f);
+  }
+
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+    this->player->move(0.f, 1.f);
+  }
+
+//   if (this->endGame == false)
+//   {
+
+//   this->updateGui();
+
+//   }
 }
 
   void Game::render() {
@@ -109,10 +140,10 @@ return false;
 
   // Render stuff
  
+this->player->render(*this->window);
 
-
-//RENDER GUI
-this->renderGui(this->window);
+// //RENDER GUI
+// this->renderGui(this->window);
 
 //Render end text
 if (this->endGame == true)

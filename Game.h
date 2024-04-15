@@ -8,7 +8,7 @@
 #include <ctime>
 #include <sstream>
 #include <vector>
-
+#include "Player.h"
 
 
 class Game
@@ -20,6 +20,8 @@ sf::RenderWindow* window;
 bool endGame;
 sf::Event sfmlEvent;
 
+//Players
+Player* player;
 int points;
 
 sf::Font font;
@@ -33,6 +35,7 @@ void initWindow();
 void initVariables();
 void initFont();
 void initText();
+void initPlayer();
 
 
 
