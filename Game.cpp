@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "Player.h"
-
+#include "Bullet.h"
 #include <iostream>
 
 void Game::initVariables() { 
@@ -44,6 +44,12 @@ this->endGameText.setCharacterSize(60);
 this->endGameText.setPosition(sf::Vector2f(20,300));
 this->endGameText.setString("YOU ARE DEAD!");
 };
+void Game::initTextures(){
+
+this->textures["BULLET"] = new sf::Texture;
+this->textures["BULLET"] ->loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Textures/bullet.png");
+};
+
 
 void Game::initPlayer(){
 this->player = new Player();
@@ -56,6 +62,7 @@ Game::Game() {
   this->initWindow();
   this->initFont();
   this->initText();
+  this->initTextures();
   this->initPlayer();
 }
 
@@ -65,6 +72,18 @@ Game::~Game() {
     delete window; 
     delete player;
     
+    //delete Textures
+    for (auto &i : this ->textures)
+    {
+        delete i.second;
+    }
+    
+
+    //delete remaining bullets
+    for (auto *i: this->bullets)
+    {
+        delete i;  
+    }
     
     };
 
@@ -124,13 +143,25 @@ return false;
   else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
     this->player->move(0.f, 1.f);
   }
-  };
 
+
+  if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+  {
+    this->bullets.push_back(new Bullet(this->textures["BULLET"],this->player->getPos().x,this->player->getPos().y,0.f,-1.f,10.f));
+  }
+  
+  };
+void Game::updateBullet(){
+for(auto *bullet: this->bullets)
+{
+    bullet->update();
+}
+};
   void Game::update() 
 { 
   this->updatePollEvents(); 
 this->updateInput();
-
+this->updateBullet();
 
 
 //   if (this->endGame == false)
@@ -148,6 +179,10 @@ this->updateInput();
  
 this->player->render(*this->window);
 
+for(auto *bullet: this->bullets)
+{
+    bullet->render(this->window);
+}
 // //RENDER GUI
 // this->renderGui(this->window);
 

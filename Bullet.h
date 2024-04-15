@@ -20,10 +20,12 @@ private:
 
 public:
 Bullet();
-    Bullet(sf::Texture& texture, float dirX, float dirY, float movement_speed);
+    Bullet(sf::Texture* texture, float pos_x, float pos_y, float dirX, float dirY, float movement_speed);
     ~Bullet();
 
 
+//Accessor
+const sf::FloatRect getBounds() const;
 
     void update();
     void render(sf::RenderTarget* target);

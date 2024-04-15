@@ -10,7 +10,7 @@
 #include <vector>
 #include <map>
 #include "Player.h"
-
+#include "Bullet.h"
 
 class Game
 {
@@ -23,8 +23,8 @@ sf::Event sfmlEvent;
 
 //Resources
 //Mapping key - values
-std::map <std::string, sf::Texture> textures;
-
+std::map <std::string, sf::Texture*> textures;
+std::vector<Bullet*> bullets;
 
 //Players
 Player* player;
@@ -41,7 +41,7 @@ void initWindow();
 void initVariables();
 void initFont();
 void initText();
-void initTexture();
+void initTextures();
 void initPlayer();
 
 
@@ -60,6 +60,7 @@ const bool& getEndGame() const;
 
     void updateInput();
     void updateGui();
+    void updateBullet();
     void update();
     void renderGui(sf::RenderTarget* target);
 

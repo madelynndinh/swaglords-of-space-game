@@ -38,6 +38,15 @@ Player::~Player()
 {
 }
 
+
+//Accessor
+const sf::Vector2f& Player::getPos() const
+{
+    return this->sprite.getPosition();
+};
+
+//Functions
+
 void Player::move(const float dirX, const float dirY) {
     this->sprite.move(this->movementSpeed * dirX, this->movementSpeed*dirY);
 }

@@ -27,6 +27,9 @@ public:
     Player(/* args */);
     ~Player();
 
+//Accessor
+const sf::Vector2f& getPos() const;
+
 
     //Functions
 
