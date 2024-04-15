@@ -2,6 +2,15 @@
 #include <iostream>
 #include "Game.h"
 
+ void Player::initVariables()
+ {
+this->movementSpeed = 1.f;
+
+this->attackCoolDownMax = 10.f;
+this->attackCoolDown = this->attackCoolDownMax ;
+ };
+
+
   void Player::initTexture()
   {
     //Load texture from file
@@ -30,6 +39,7 @@ this->sprite.scale(0.1f,0.1f);
 Player::Player(/* args */)
 {
     this->movementSpeed = 10.f;
+    this->initVariables();
     this->initTexture();
     this->initSprite();
 }
@@ -51,8 +61,29 @@ void Player::move(const float dirX, const float dirY) {
     this->sprite.move(this->movementSpeed * dirX, this->movementSpeed*dirY);
 }
 
-void Player::update(){
 
+const bool Player::canAttack()
+{
+if (this->attackCoolDown >= this->attackCoolDownMax)
+{
+    this->attackCoolDown = 0.f;
+    std::cout <<"can attack"<<std::endl;
+   return true;
+}
+ std::cout <<"cannot attack"<<std::endl;
+return false;
+};
+    void Player::updateAttack()
+    {
+if (this->attackCoolDown<this->attackCoolDownMax)
+{
+    this->attackCoolDown +=0.5f;
+}
+
+    };
+
+void Player::update(){
+this->updateAttack();
 };
 
 void Player::render(sf::RenderTarget& target)

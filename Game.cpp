@@ -145,22 +145,33 @@ return false;
   }
 
 
-  if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+  if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&&this->player->canAttack())
   {
     this->bullets.push_back(new Bullet(this->textures["BULLET"],this->player->getPos().x,this->player->getPos().y,0.f,-1.f,10.f));
   }
   
   };
 void Game::updateBullet(){
+    unsigned counter = 0;
 for(auto *bullet: this->bullets)
 {
+    //bullet culling (top of screen)
     bullet->update();
+    if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
+    {
+        //Delete bullet go outside of the screen
+        delete this->bullets.at(counter); //delete pointer to that bullet
+       this->bullets.erase(this->bullets.begin()+counter);
+       --counter;
+    }
+    counter +=1;
 }
 };
   void Game::update() 
 { 
   this->updatePollEvents(); 
 this->updateInput();
+this->player->update();
 this->updateBullet();
 
 
