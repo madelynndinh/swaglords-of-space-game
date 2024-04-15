@@ -88,7 +88,7 @@ return false;
   };
 
 
-  void Game::pollEvents() {
+  void Game::updatePollEvents() {
   // Event polling
   while (this->window->pollEvent(this->sfmlEvent)) {
     switch (this->sfmlEvent.type) {
@@ -105,11 +105,9 @@ return false;
   }
   }
 
-  void Game::update() 
-{ 
-  this->pollEvents(); 
 
-
+  void Game::updateInput()
+  {
   //Move player
  if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
     this->player->move(-1.f, 0.f);
@@ -126,6 +124,14 @@ return false;
   else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
     this->player->move(0.f, 1.f);
   }
+  };
+
+  void Game::update() 
+{ 
+  this->updatePollEvents(); 
+this->updateInput();
+
+
 
 //   if (this->endGame == false)
 //   {

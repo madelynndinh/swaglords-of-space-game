@@ -8,6 +8,7 @@
 #include <ctime>
 #include <sstream>
 #include <vector>
+#include <map>
 #include "Player.h"
 
 
@@ -19,6 +20,11 @@ sf::VideoMode videoMode;
 sf::RenderWindow* window;
 bool endGame;
 sf::Event sfmlEvent;
+
+//Resources
+//Mapping key - values
+std::map <std::string, sf::Texture> textures;
+
 
 //Players
 Player* player;
@@ -35,6 +41,7 @@ void initWindow();
 void initVariables();
 void initFont();
 void initText();
+void initTexture();
 void initPlayer();
 
 
@@ -49,8 +56,10 @@ const bool& getEndGame() const;
 
     //Functions
      void run();
-      void pollEvents();
-          void updateGui();
+    void updatePollEvents();
+
+    void updateInput();
+    void updateGui();
     void update();
     void renderGui(sf::RenderTarget* target);
 
