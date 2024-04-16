@@ -32,7 +32,10 @@ Player* player;
 int points;
 
 //Enemies
-Enemy* enemy;
+float spawnTimer;
+float spawnTimerMax;
+
+std::vector <Enemy*> enemies;
 
 
 sf::Font font;
@@ -48,7 +51,7 @@ void initFont();
 void initText();
 void initTextures();
 void initPlayer();
-
+void initEnemies();
 
 
 public:
@@ -66,6 +69,7 @@ const bool& getEndGame() const;
     void updateInput();
     void updateGui();
     void updateBullet();
+    void updateEnemies();
     void update();
     void renderGui(sf::RenderTarget* target);
 

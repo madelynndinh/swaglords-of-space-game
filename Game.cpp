@@ -54,8 +54,13 @@ this->textures["BULLET"] ->loadFromFile("/Users/minhtamdinh/Documents/OOP/projec
 
 void Game::initPlayer(){
 this->player = new Player();
-this->enemy  = new Enemy(20.f,20.f);
 };
+
+void  Game::initEnemies()
+{
+this->spawnTimerMax = 50.f;
+this->spawnTimer = this->spawnTimerMax;
+}
 
 
 // Constructors and Destructors2
@@ -66,6 +71,7 @@ Game::Game() {
   this->initText();
   this->initTextures();
   this->initPlayer();
+  this->initEnemies();
 }
 
 
@@ -87,6 +93,13 @@ Game::~Game() {
         delete i;  
     }
     
+    //Delete enemies
+    for (auto *i: this->enemies)
+    {
+      delete i;
+    }
+    
+
     };
 
 //Accessors
@@ -149,7 +162,12 @@ return false;
 
   if (sf::Mouse::isButtonPressed(sf::Mouse::Left)&&this->player->canAttack())
   {
-    this->bullets.push_back(new Bullet(this->textures["BULLET"],this->player->getPos().x,this->player->getPos().y,0.f,-1.f,10.f));
+    this->bullets.push_back(
+      new Bullet(
+        this->textures["BULLET"],
+        this->player->getPos().x + this->player->getBounds().width/2.f,
+        this->player->getPos().y,
+        0.f,-1.f,10.f));
   }
   
   };
@@ -169,11 +187,27 @@ for(auto *bullet: this->bullets)
     counter +=1;
 }
 };
+
+void Game::updateEnemies()
+{
+  this->spawnTimer += 0.5f;
+if (this->spawnTimer >= this->spawnTimerMax)
+{
+  this->enemies.push_back(new Enemy(rand()%200, rand()%200));
+  this->spawnTimer = 0.f;
+}
+for(auto *enemy: this->enemies)
+{
+    enemy->update();
+}
+
+};
   void Game::update() 
 { 
   this->updatePollEvents(); 
 this->updateInput();
 this->player->update();
+this->updateEnemies();
 this->updateBullet();
 
 
@@ -196,8 +230,11 @@ for(auto *bullet: this->bullets)
 {
     bullet->render(this->window);
 }
+for(auto *enemy: this->enemies)
+{
+    enemy->render(this->window);
+}
 
-this->enemy->render(this->window);
 // //RENDER GUI
 // this->renderGui(this->window);
 
