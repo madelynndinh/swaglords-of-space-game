@@ -27,6 +27,12 @@ sf::Event sfmlEvent;
 std::map <std::string, sf::Texture*> textures;
 std::vector<Bullet*> bullets;
 
+//GUI
+sf::Font font;
+sf::Text pointText;
+sf::Text endGameText;
+
+
 //Players
 Player* player;
 int points;
@@ -37,10 +43,6 @@ float spawnTimerMax;
 
 std::vector <Enemy*> enemies;
 
-
-sf::Font font;
-sf::Text guiText;
-sf::Text endGameText;
 
 
     //Private functions
@@ -63,13 +65,13 @@ public:
 const bool& getEndGame() const;
 
     //Functions
-     void run();
+    void run();
     void updatePollEvents();
-
+ void updateGui();
     void updateInput();
-    void updateGui();
+   
     void updateBullet();
-    void updateEnemies();
+    void updateEnemiesAndCombat();
     void update();
     void renderGui(sf::RenderTarget* target);
 

@@ -4,7 +4,7 @@
 
  void Player::initVariables()
  {
-this->movementSpeed = 1.f;
+this->movementSpeed = 2.f;
 
 this->attackCoolDownMax = 10.f;
 this->attackCoolDown = this->attackCoolDownMax ;

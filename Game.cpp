@@ -22,7 +22,7 @@ void Game::initWindow() {
 
 void Game::initFont()
 {
-if(this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/pick-up-swag-balls-game/Bungee_Spice/BungeeSpice-Regular.ttf"))
+if(this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Fonts/PixellettersFull.ttf"))
 {
   std::cout << "ERROR::GAME::INITFONTS::"<<std::endl;
 };
@@ -32,11 +32,11 @@ if(this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/pick-u
 
 void Game::initText()
 {
-  //init guitext
-this->guiText.setFont(this->font);
-this->guiText.setFillColor(sf::Color::White);
-this->guiText.setCharacterSize(32);
-
+  //init pointtext
+this->pointText.setFont(this->font);
+this->pointText.setFillColor(sf::Color::White);
+this->pointText.setCharacterSize(12);
+this->pointText.setString("Points: ");
 
 //End game text
 this->endGameText.setFont(this->font);
@@ -138,7 +138,10 @@ return false;
     }
   }
   }
+   void Game::updateGui()
+   {
 
+   };
 
   void Game::updateInput()
   {
@@ -171,6 +174,7 @@ return false;
   }
   
   };
+
 void Game::updateBullet(){
     unsigned counter = 0;
 for(auto *bullet: this->bullets)
@@ -188,7 +192,7 @@ for(auto *bullet: this->bullets)
 }
 };
 
-void Game::updateEnemies()
+void Game::updateEnemiesAndCombat()
 {
   this->spawnTimer += 0.5f;
 if (this->spawnTimer >= this->spawnTimerMax)
@@ -196,16 +200,33 @@ if (this->spawnTimer >= this->spawnTimerMax)
   this->enemies.push_back(new Enemy(rand()%this->window->getSize().x-20.f, -100.f));
   this->spawnTimer = 0.f;
 }
+
 for(int i = 0; i<this->enemies.size();i++)
 {
+  bool enemy_removed = false;
+  this->enemies[i]->update();
     this->enemies[i]->update();
+
+    for (size_t k = 0; k < this->bullets.size(); k++)
+    {
+      if (this->bullets[k]->getBounds().intersects(this->enemies[i]->getBounds())&& !enemy_removed)
+      {
+        this->bullets.erase(this->bullets.begin()+k);
+        this->enemies.erase(this->enemies.begin()+i);
+        enemy_removed = true;
+      }
+      
+    }
+    
     //Remove enemy at the bottom of the screen
-    if (this->enemies[i]->getBounds().top > this->window->getSize().y)
+    if(!enemy_removed)
+   { if (this->enemies[i]->getBounds().top > this->window->getSize().y)
     {
       this->enemies.erase(this->enemies.begin()+i);
       std::cout<< enemies.size() <<std::endl;
+      enemy_removed = true;
     }
-    
+    }
 }
 
 };
@@ -214,17 +235,23 @@ for(int i = 0; i<this->enemies.size();i++)
   this->updatePollEvents(); 
 this->updateInput();
 this->player->update();
-this->updateEnemies();
+this->updateEnemiesAndCombat();
 this->updateBullet();
 
 
 //   if (this->endGame == false)
 //   {
 
-//   this->updateGui();
+   this->updateGui();
 
 //   }
 }
+
+ void Game::renderGui(sf::RenderTarget* target)
+ {
+this->window->draw(this->pointText);
+ };
+
 
   void Game::render() {
   this->window->clear();
@@ -242,8 +269,8 @@ for(auto *enemy: this->enemies)
     enemy->render(this->window);
 }
 
-// //RENDER GUI
-// this->renderGui(this->window);
+ //RENDER GUI
+this->renderGui(this->window);
 
 //Render end text
 if (this->endGame == true)
