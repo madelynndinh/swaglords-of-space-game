@@ -15,6 +15,7 @@ class Enemy
 private:
     sf::CircleShape shape;
     int type;
+    float speed;
     int hp;
     int hpMax;
     int damage;
@@ -27,6 +28,9 @@ void initVariables();
 public:
     Enemy(float pos_x, float pos_y);
     ~Enemy();
+
+//Accessors
+const sf::FloatRect getBounds() const;
 
 
     void update();
