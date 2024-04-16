@@ -14,7 +14,7 @@ this->attackCoolDown = this->attackCoolDownMax ;
   void Player::initTexture()
   {
     //Load texture from file
-if (this->texture.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Textures/ship.png"))
+if (!this->texture.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Textures/ship.png"))
 {
     std::cout<<"ERROR::PLAYER::INITEXTURE::Could not load texture from file." << "\n";
 }
@@ -60,6 +60,21 @@ const sf::FloatRect Player::getBounds() const
     return this->sprite.getGlobalBounds();
 }
 ;
+
+
+//Modifiers
+void Player::setPosition(const sf::Vector2f pos )
+{
+  this->sprite.setPosition(pos);
+};
+
+void Player::setPosition(const float x, const float y)
+{
+this->sprite.setPosition(x,y);
+};
+
+
+
 //Functions
 
 void Player::move(const float dirX, const float dirY) {

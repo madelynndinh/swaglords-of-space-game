@@ -32,6 +32,10 @@ sf::Font font;
 sf::Text pointText;
 sf::Text endGameText;
 
+//World
+sf::Texture worldBackgroundText;
+sf::Sprite worldBackGround;
+
 
 //Players
 Player* player;
@@ -52,6 +56,7 @@ void initVariables();
 void initFont();
 void initText();
 void initTextures();
+void initWorld();
 void initPlayer();
 void initEnemies();
 
@@ -64,18 +69,23 @@ public:
 //Accessors
 const bool& getEndGame() const;
 
+
+
     //Functions
     void run();
     void updatePollEvents();
     void updateGui();
+    void updateWorld();
     void updateInput();
-   
+    void updateCollision();
     void updateBullet();
     void updateEnemies();
     void updateCombat();
     void update();
-    void renderGui(sf::RenderTarget* target);
 
+
+    void renderGui(sf::RenderTarget* target);
+void renderWorld();
     void render();
 };
 

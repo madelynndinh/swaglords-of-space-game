@@ -22,7 +22,7 @@ void Game::initWindow() {
 
 void Game::initFont()
 {
-if(this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Fonts/PixellettersFull.ttf"))
+if(!this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Fonts/PixellettersFull.ttf"))
 {
   std::cout << "ERROR::GAME::INITFONTS::"<<std::endl;
 };
@@ -53,6 +53,15 @@ this->textures["BULLET"] = new sf::Texture;
 this->textures["BULLET"] ->loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Textures/bullet.png");
 };
 
+void Game::initWorld()
+{
+  if(!this->worldBackgroundText.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Textures/background1.jpg"))
+  {
+std::cout<<"ERROR::GAME::COULD NOT LOAD BACKGROUND TEXTURE"<<"\n";
+  }
+    this->worldBackGround.setTexture(this->worldBackgroundText);
+
+};
 
 void Game::initPlayer(){
 this->player = new Player();
@@ -72,6 +81,7 @@ Game::Game() {
   this->initFont();
   this->initText();
   this->initTextures();
+  this->initWorld();
   this->initPlayer();
   this->initEnemies();
 }
@@ -111,6 +121,7 @@ return false;
 };
 
 
+
   void Game::run()
   {
 
@@ -145,6 +156,10 @@ return false;
 
    };
 
+void Game::updateWorld(){
+
+};
+
   void Game::updateInput()
   {
   //Move player
@@ -176,6 +191,18 @@ return false;
   }
   
   };
+
+  void Game::updateCollision()
+  {
+if(this->player->getBounds().left <0.f)
+{
+this->player->setPosition(0.f,this->player->getBounds().top);
+}
+else if(this->player->getBounds().left+this->player->getBounds().width>this->window->getSize().x)
+{
+this->player->setPosition(this->window->getSize().x,this->player->getBounds().top);
+}
+  }
 
 void Game::updateBullet(){
     unsigned counter = 0;
@@ -252,6 +279,8 @@ for(int i = 0; i<this->enemies.size();i++)
   this->updatePollEvents(); 
 this->updateInput();
 this->player->update();
+this->updateCollision();
+this->updateWorld();
 this->updateEnemies();
 this->updateCombat();
 this->updateBullet();
@@ -271,8 +300,16 @@ this->window->draw(this->pointText);
  };
 
 
+void Game::renderWorld()
+{
+  this->window->draw(this->worldBackGround);
+}
+
   void Game::render() {
   this->window->clear();
+
+//Draw the world;
+this->renderWorld();
 
   // Render stuff
  
