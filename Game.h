@@ -67,11 +67,12 @@ const bool& getEndGame() const;
     //Functions
     void run();
     void updatePollEvents();
- void updateGui();
+    void updateGui();
     void updateInput();
    
     void updateBullet();
-    void updateEnemiesAndCombat();
+    void updateEnemies();
+    void updateCombat();
     void update();
     void renderGui(sf::RenderTarget* target);
 

@@ -45,6 +45,8 @@ this->endGameText.setCharacterSize(60);
 this->endGameText.setPosition(sf::Vector2f(20,300));
 this->endGameText.setString("YOU ARE DEAD!");
 };
+
+
 void Game::initTextures(){
 
 this->textures["BULLET"] = new sf::Texture;
@@ -177,6 +179,7 @@ return false;
 
 void Game::updateBullet(){
     unsigned counter = 0;
+    
 for(auto *bullet: this->bullets)
 {
     //bullet culling (top of screen)
@@ -190,10 +193,12 @@ for(auto *bullet: this->bullets)
     }
     counter +=1;
 }
+    
 };
 
-void Game::updateEnemiesAndCombat()
+void Game::updateEnemies()
 {
+  //Spawning
   this->spawnTimer += 0.5f;
 if (this->spawnTimer >= this->spawnTimerMax)
 {
@@ -201,41 +206,54 @@ if (this->spawnTimer >= this->spawnTimerMax)
   this->spawnTimer = 0.f;
 }
 
+
+//Update
+    unsigned counter = 0;
+
+for(auto *enemy: this->enemies)
+{
+    enemy->update();
+    if (enemy->getBounds().top > this->window->getSize().y)
+    {
+        //Delete enemy
+        delete this->enemies.at(counter);
+       this->enemies.erase(this->enemies.begin()+counter);
+       --counter;
+    }
+    counter +=1;
+}
+};
+
+
+void Game:: updateCombat(){
 for(int i = 0; i<this->enemies.size();i++)
 {
   bool enemy_removed = false;
   this->enemies[i]->update();
-    this->enemies[i]->update();
-
-    for (size_t k = 0; k < this->bullets.size(); k++)
+    for (size_t k = 0; k < this->bullets.size()&&!enemy_removed; k++)
     {
       if (this->bullets[k]->getBounds().intersects(this->enemies[i]->getBounds())&& !enemy_removed)
       {
+        delete bullets[k];
+        delete enemies[i];
         this->bullets.erase(this->bullets.begin()+k);
         this->enemies.erase(this->enemies.begin()+i);
-        enemy_removed = true;
+
+      enemy_removed=true;
       }
-      
-    }
-    
-    //Remove enemy at the bottom of the screen
-    if(!enemy_removed)
-   { if (this->enemies[i]->getBounds().top > this->window->getSize().y)
-    {
-      this->enemies.erase(this->enemies.begin()+i);
-      std::cout<< enemies.size() <<std::endl;
-      enemy_removed = true;
-    }
     }
 }
 
 };
+
+
   void Game::update() 
 { 
   this->updatePollEvents(); 
 this->updateInput();
 this->player->update();
-this->updateEnemiesAndCombat();
+this->updateEnemies();
+this->updateCombat();
 this->updateBullet();
 
 
@@ -264,6 +282,7 @@ for(auto *bullet: this->bullets)
 {
     bullet->render(this->window);
 }
+
 for(auto *enemy: this->enemies)
 {
     enemy->render(this->window);

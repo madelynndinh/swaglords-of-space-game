@@ -72,10 +72,8 @@ const bool Player::canAttack()
 if (this->attackCoolDown >= this->attackCoolDownMax)
 {
     this->attackCoolDown = 0.f;
-    std::cout <<"can attack"<<std::endl;
    return true;
 }
- std::cout <<"cannot attack"<<std::endl;
 return false;
 };
     void Player::updateAttack()
