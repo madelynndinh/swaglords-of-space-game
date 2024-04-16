@@ -11,6 +11,7 @@
 #include <map>
 #include "Player.h"
 #include "Bullet.h"
+#include "Enemy.h"
 
 class Game
 {
@@ -29,6 +30,10 @@ std::vector<Bullet*> bullets;
 //Players
 Player* player;
 int points;
+
+//Enemies
+Enemy* enemy;
+
 
 sf::Font font;
 sf::Text guiText;

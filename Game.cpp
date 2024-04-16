@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Bullet.h"
+#include "Enemy.h"
 #include <iostream>
 
 void Game::initVariables() { 
@@ -53,6 +54,7 @@ this->textures["BULLET"] ->loadFromFile("/Users/minhtamdinh/Documents/OOP/projec
 
 void Game::initPlayer(){
 this->player = new Player();
+this->enemy  = new Enemy(20.f,20.f);
 };
 
 
@@ -194,6 +196,8 @@ for(auto *bullet: this->bullets)
 {
     bullet->render(this->window);
 }
+
+this->enemy->render(this->window);
 // //RENDER GUI
 // this->renderGui(this->window);
 
