@@ -6,7 +6,7 @@
 
 void Game::initVariables() { 
   this->endGame = false;
-  this-> points =0;
+ 
   }
 
 void Game::initWindow() {
@@ -61,6 +61,10 @@ std::cout<<"ERROR::GAME::COULD NOT LOAD BACKGROUND TEXTURE"<<"\n";
   }
     this->worldBackGround.setTexture(this->worldBackgroundText);
 
+};
+
+void Game::initSystem(){
+ this-> points =0;
 };
 
 void Game::initPlayer(){
@@ -153,11 +157,13 @@ return false;
   }
    void Game::updateGui()
    {
-
+    std::stringstream ss;
+    ss<<"Points: "<<this->points;
+this->pointText.setString(ss.str());
    };
 
 void Game::updateWorld(){
-
+this->points = 0;
 };
 
   void Game::updateInput()
@@ -194,13 +200,29 @@ void Game::updateWorld(){
 
   void Game::updateCollision()
   {
+    //Left World collision
 if(this->player->getBounds().left <0.f)
 {
 this->player->setPosition(0.f,this->player->getBounds().top);
 }
-else if(this->player->getBounds().left+this->player->getBounds().width>this->window->getSize().x)
+
+//Right World collision
+else if(this->player->getBounds().left+this->player->getBounds().width>=this->window->getSize().x)
 {
-this->player->setPosition(this->window->getSize().x,this->player->getBounds().top);
+this->player->setPosition(this->window->getSize().x-this->player->getBounds().width,this->player->getBounds().top);
+}
+
+
+//Top World collision
+if(this->player->getBounds().top <0.f)
+{
+this->player->setPosition(this->player->getBounds().left,0.f);
+}
+
+//Bottom World collision
+else if(this->player->getBounds().top+this->player->getBounds().height>=this->window->getSize().y)
+{
+this->player->setPosition(this->player->getBounds().left,this->window->getSize().y-this->player->getBounds().height);
 }
   }
 

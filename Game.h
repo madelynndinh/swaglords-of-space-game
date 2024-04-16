@@ -36,10 +36,12 @@ sf::Text endGameText;
 sf::Texture worldBackgroundText;
 sf::Sprite worldBackGround;
 
+//System
+unsigned points;
 
 //Players
 Player* player;
-int points;
+
 
 //Enemies
 float spawnTimer;
@@ -57,6 +59,7 @@ void initFont();
 void initText();
 void initTextures();
 void initWorld();
+void initSystem();
 void initPlayer();
 void initEnemies();
 
