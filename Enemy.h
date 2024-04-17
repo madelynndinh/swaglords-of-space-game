@@ -13,13 +13,14 @@
 class Enemy
 {
 private:
+unsigned pointCount;
     sf::CircleShape shape;
     int type;
     float speed;
     int hp;
     int hpMax;
     int damage;
-    int points;
+    int points;//got from killing enemy
 
 void initShape();
 void initVariables();
@@ -31,7 +32,7 @@ public:
 
 //Accessors
 const sf::FloatRect getBounds() const;
-
+const int& getPoints() const;
 
     void update();
     void render(sf::RenderTarget* target);

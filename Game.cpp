@@ -269,6 +269,14 @@ for(auto *enemy: this->enemies)
        this->enemies.erase(this->enemies.begin()+counter);
        --counter;
     }
+
+    else if (enemy->getBounds().intersects(this->player->getBounds()))
+    {
+       //Delete enemy
+        delete this->enemies.at(counter);
+       this->enemies.erase(this->enemies.begin()+counter);
+       --counter;
+    }
     counter +=1;
 }
 };
@@ -288,6 +296,7 @@ for(int i = 0; i<this->enemies.size();i++)
         this->bullets.erase(this->bullets.begin()+k);
         this->enemies.erase(this->enemies.begin()+i);
 
+this->points += this->enemies[i]->getPoints();
       enemy_removed=true;
       }
     }
