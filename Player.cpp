@@ -4,12 +4,12 @@
 
  void Player::initVariables()
  {
-this->movementSpeed = 2.f;
+this->movementSpeed = 8.f;
 
 this->attackCoolDownMax = 10.f;
 this->attackCoolDown = this->attackCoolDownMax ;
 
-this->hpMax = 10 ;
+this->hpMax = 100 ;
 this->hp = this->hpMax;
  };
 
@@ -95,6 +95,12 @@ this->hp = hp;
 void Player::loseHp(const int value )
 {
 this->hp -=value;
+
+if (this->hp < 0)
+{
+  this-> hp =0;
+}
+
 };
 
 //Functions
