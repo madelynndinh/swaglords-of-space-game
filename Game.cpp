@@ -20,18 +20,13 @@ void Game::initWindow() {
 }
 
 
-void Game::initFont()
+void Game::initGUI()
 {
-if(!this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Fonts/PixellettersFull.ttf"))
+  if(!this->font.loadFromFile("/Users/minhtamdinh/Documents/OOP/project/demo/swaglords-of-space-game/Fonts/PixellettersFull.ttf"))
 {
   std::cout << "ERROR::GAME::INITFONTS::"<<std::endl;
 };
 
-};
-
-
-void Game::initText()
-{
   //init pointtext
 this->pointText.setFont(this->font);
 this->pointText.setFillColor(sf::Color::White);
@@ -44,7 +39,16 @@ this->endGameText.setFillColor(sf::Color::Red);
 this->endGameText.setCharacterSize(60);
 this->endGameText.setPosition(sf::Vector2f(20,300));
 this->endGameText.setString("YOU ARE DEAD!");
-};
+
+
+
+ //init player GUI
+  this->playerHpBar.setSize(sf::Vector2f(300.f,25.f));
+   this->playerHpBar.setFillColor(sf::Color::Red);
+     this->playerHpBar.setPosition(sf::Vector2f(20.f,20.f));
+    
+    this->playerHpBarBack = this->playerHpBar;
+this->playerHpBarBack.setFillColor(sf::Color(25,25,200));};
 
 
 void Game::initTextures(){
@@ -82,8 +86,7 @@ this->spawnTimer = this->spawnTimerMax;
 Game::Game() {
   this->initVariables();
   this->initWindow();
-  this->initFont();
-  this->initText();
+  this->initGUI();
   this->initTextures();
   this->initWorld();
   this->initPlayer();
@@ -160,6 +163,14 @@ return false;
     std::stringstream ss;
     ss<<"Points: "<<this->points;
 this->pointText.setString(ss.str());
+  
+ 
+//Update player GUI
+this->player->setHp(5);
+float hpPercent = static_cast<float>(this->player->getHp())/this->player->getHpMax();
+this->playerHpBar.setSize(sf::Vector2f(300.f*hpPercent, this->playerHpBar.getSize().y)) ;
+
+  
    };
 
 void Game::updateWorld(){
@@ -328,6 +339,9 @@ this->updateBullet();
  void Game::renderGui(sf::RenderTarget* target)
  {
 this->window->draw(this->pointText);
+this->window->draw(this->playerHpBarBack);
+this->window->draw(this->playerHpBar);
+
  };
 
 

@@ -42,6 +42,9 @@ unsigned points;
 //Players
 Player* player;
 
+//Player GUI
+sf::RectangleShape playerHpBar;
+sf::RectangleShape playerHpBarBack;
 
 //Enemies
 float spawnTimer;
@@ -55,8 +58,7 @@ std::vector <Enemy*> enemies;
 
 void initWindow();
 void initVariables();
-void initFont();
-void initText();
+void initGUI();
 void initTextures();
 void initWorld();
 void initSystem();
